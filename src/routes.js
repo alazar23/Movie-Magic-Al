@@ -6,9 +6,9 @@ const movieController = require('./controllers/createController')
 
 
 
-router.use(homeController)
 router.use(movieController)
 
+router.use(homeController)
 
 
 
