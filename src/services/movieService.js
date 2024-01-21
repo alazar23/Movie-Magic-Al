@@ -23,3 +23,18 @@ exports.create = (movieData) =>{
   const movie = movies.find(movie => movie._id == movieId)
   return movie 
  }
+
+ exports.search =(title,genre,year) =>{
+  let result = movies.slice()
+  if(title){
+    result = result.filter(movie =>movie.title.includes(title))
+  }
+  if(genre){
+    result = result.filter(movie =>movie.genre === genre)
+  }
+  if(year){
+    result = result.filter(movie =>movie.year === year)
+  }
+  return movies
+
+ }
