@@ -8,6 +8,12 @@ const movies = [{
     rating: '5',
     description: 'mnogo top film'
   }]
+
+  exports.getAll = () =>{
+    return movies.slice()
+  }
+
+  
 exports.create = (movieData) =>{
     movies.push(movieData)
 }
