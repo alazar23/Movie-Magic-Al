@@ -15,12 +15,14 @@ router.get('/about',(req,res) =>{
 })
 
 
-router.get('/search',(req,res) =>{
+router.get('/search',async (req,res) =>{
+    
+    const movies = await movieService.getAll().lean()
+    
     const {title,genre,year} = req.query
     const movieResult = movieService.search(title,genre,year)
     res.render('search',{movies:movieResult})
 })
-
 
 router.get('*',(req,res) =>{
     res.render('404')
