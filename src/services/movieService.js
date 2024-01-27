@@ -1,4 +1,4 @@
-
+const Movie = require('../models/movie')
 const movies = [{
     _id:1,
     title: 'Suits',
@@ -15,9 +15,10 @@ const movies = [{
   }
 
 
-exports.create = (movieData) =>{
-  movieData._id = movies[movies.length + 1]._id + 1
-    movies.push(movieData)
+exports.create = async (movieData) =>{
+
+  const result =  await Movie.create(movieData)
+    return result 
 }
  exports.getOne = (movieId) =>{
   const movie = movies.find(movie => movie._id == movieId)

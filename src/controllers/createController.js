@@ -6,11 +6,17 @@ router.get('/create',(req,res) =>{
     res.render('create')
 })
 
-router.post('/create',(req,res) =>{
-
+router.post('/create',async (req,res) =>{
     const newMovie = req.body
-   movieService.create(newMovie)
     res.redirect('/')
+    try {
+        await movieService.create(newMovie)
+    } catch (err) {
+        console.log(err.message);
+        res.status(400).end()
+        res.redirect('/create')
+    }
+    
 })
 
 
