@@ -1,34 +1,22 @@
 const Movie = require('../models/movie')
-const movies = [{
-    _id:1,
-    title: 'Suits',
-    genre: 'Goten',
-    director: 'az',
-    year: '2020',
-    imageUrl: 'nqma',
-    rating: '5',
-    description: 'mnogo top film'
-  }]
 
-  exports.getAll = () =>{
-    return movies.slice()
+
+  exports.getAll =  () =>{
+   const movies = Movie.find()
+   return movies
   }
 
 
-exports.create = async (movieData) =>{
+exports.create = (movieData) =>{
 
-  const result =  await Movie.create(movieData)
+  const result =  Movie.create(movieData)
     return result 
 }
- exports.getOne = (movieId) =>{
-  const movie = movies.find(movie => movie._id == movieId)
-  return movie 
- }
 
- exports.search =(title,genre,year) =>{
-  let result = movies.slice()
+exports.search =async(title,genre,year) =>{
+  let result = await Movie.find().lean()
   if(title){
-    result = result.filter(movie =>movie.title.includes(title))
+    result = result.filter(movie =>movie.title.toLocaleLowerCase().includes(title.toLocaleLowerCase()))
   }
   if(genre){
     result = result.filter(movie =>movie.genre === genre)
@@ -36,6 +24,10 @@ exports.create = async (movieData) =>{
   if(year){
     result = result.filter(movie =>movie.year === year)
   }
-  return movies
+  return result
+}
 
- }
+exports.getOne = (movieId) =>{
+ const movie = Movie.findById(movieId)
+ return movie 
+}

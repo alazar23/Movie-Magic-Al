@@ -3,8 +3,9 @@ const router = require('express').Router()
 const movieService = require('../services/movieService')
 
 
-router.get('/',(req,res) =>{
-    const movies = movieService.getAll()
+router.get('/',async (req,res) =>{
+    const movies = await movieService.getAll().lean()
+    
     res.render('home',{movies})
 })
 
@@ -19,6 +20,8 @@ router.get('/search',(req,res) =>{
     const movieResult = movieService.search(title,genre,year)
     res.render('search',{movies:movieResult})
 })
+
+
 router.get('*',(req,res) =>{
     res.render('404')
 })
