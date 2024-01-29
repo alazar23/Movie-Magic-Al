@@ -31,3 +31,12 @@ exports.getOne = (movieId) =>{
  const movie = Movie.findById(movieId)
  return movie 
 }
+
+exports.attach = async(movieId,castId) =>{
+  
+const movie = await this.getOne(movieId) 
+
+movie.casts.push(castId)
+
+return movie.save()
+}
