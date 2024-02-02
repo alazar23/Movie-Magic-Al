@@ -13,24 +13,24 @@ exports.create = (movieData) =>{
     return result 
 }
 
-exports.search =async(title,genre,year) =>{
-  let result = await Movie.find().lean()
+exports.search =(title,genre,year) =>{
+  let query = {}
   if(title){
-    result = result.filter(movie =>movie.title.toLocaleLowerCase().includes(title.toLocaleLowerCase()))
+   // result = result.filter(movie =>movie.title.toLocaleLowerCase().includes(title.toLocaleLowerCase()))
+    query.title = new RegExp(title,'i')
   }
   if(genre){
-    result = result.filter(movie =>movie.genre === genre)
+    //result = result.filter(movie =>movie.genre === genre)
+    query.genre = new RegExp(genre,'i')
   }
   if(year){
-    result = result.filter(movie =>movie.year === year)
-  }
-  return result
+  //  result = result.filter(movie =>movie.year === year)
+    query.year = year
+  
+  return Movie.find(query)
 }
-
-exports.getOne = (movieId) =>{
- const movie = Movie.findById(movieId)
- return movie 
 }
+exports.getOne = (movieId) => Movie.findById(movieId).populate('casts')
 
 exports.attach = async(movieId,castId) =>{
   

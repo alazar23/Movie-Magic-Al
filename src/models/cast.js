@@ -22,11 +22,7 @@ const castSchema = new mongoose.Schema({
     castImage:{
         type:String,
         required:true,
-        //da se pusne kogato spre da se testva 
-        // validate:
-        //     validator(value)
-        //{return /https?:\/\//
-        // }
+       
     }
 })
 

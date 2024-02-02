@@ -1,32 +1,28 @@
-const router = require('express').Router()
+const router = require('express').Router();
 
-const movieService = require('../services/movieService')
+const movieService = require('../services/movieService');
 
+router.get('/', async (req, res) => {
+    const movies = await movieService.getAll().lean();
 
-router.get('/',async (req,res) =>{
-    const movies = await movieService.getAll().lean()
-    
-    res.render('home',{movies})
-})
+    res.render('home', { movies });
+});
 
+router.get('/about', (req, res) => {
+    res.render('about');
+});
 
-router.get('/about',(req,res) =>{
-    res.render('about')
-})
+router.get('/search', async (req, res) => {
+    const { title, genre, year } = req.query;
+    const movies = await movieService.search(title, genre, year).lean();
 
+    res.render('search', { movies, title, genre, year });
+});
 
-router.get('/search',async (req,res) =>{
-    
-    const movies = await movieService.getAll().lean()
-    
-    const {title,genre,year} = req.query
-    const movieResult = movieService.search(title,genre,year)
-    res.render('search',{movies:movieResult})
-})
+router.get('/404', (req, res) => {
+    res.render('404');
+});
 
-router.get('*',(req,res) =>{
-    res.render('404')
-})
 
 
 module.exports = router
