@@ -7,7 +7,8 @@ const userSchema = new Schema({
     email:{
         type:String,
         required:true,
-        lowercase:true
+        lowercase:true,
+        unique:true
 
     },
     password:{
@@ -17,12 +18,12 @@ const userSchema = new Schema({
     }
 })
 
+userSchema.pre('save', async function () {
+    const hash = await bcrypt.hash(this.password, 12);
 
-userSchema.pre('save',async function(){
-   const hash = await bcrypt.hash(this.password,12)
-   this.password = hash;
-
+    this.password = hash;
 });
+
 userSchema.virtual('rePassword')
     .set(function (value) {
         if (value !== this.password) {
