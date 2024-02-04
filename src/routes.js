@@ -16,4 +16,8 @@ router.use('/auth',authController)
 //tozi kontroler vinagi trqbva da e posleden glupako!!!
 router.use(homeController) //<-----------------------------!!!
 //ne go pipai!!!! 
+
+router.get('/404', (req, res) => {
+    res.render('404');
+});
 module.exports = router

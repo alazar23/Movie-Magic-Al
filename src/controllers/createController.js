@@ -29,19 +29,38 @@ router.get('/movies/:movieId',async (req,res) =>{
     res.render('details',{ movie })
 })
 
-router.get('/movies/:movieId/attach' ,async(req,res) =>{
-    const movie = await  movieService.getOne(req.params.movieId).lean()
-    const casts = await castService.getAll().lean()
-    res.render('movie/attach',{...movie,casts })
-})
 
-router.post('/movies/:movieId/attach' , async (req,res) =>{
-    const castId = req.body.cast;
-    const movieId = req.params.movieId
-    await movieService.attach(movieId,castId)
+// router.get('/movies/:movieId/attach' ,async(req,res) =>{
+//     const movie = await  movieService.getOne(req.params.movieId).lean()
+//     const casts = await castService.getAll().lean()
+//     res.render('movie/attach',{...movie,casts })
+// })
 
-    res.redirect(`/movies/${movieId}/attach`)
- 
+router.get('/movies/:movieId/attach', async (req, res) => {
+    const movie = await movieService.getOne(req.params.movieId).lean();
+    const casts = await castService.getAll().lean();
+    // TODO: remove already added casts
+    res.render('movie/attach', { ...movie, casts });
 });
 
+router.post('/movies/:movieId/attach', async (req, res) => {
+    const castId = req.body.cast;
+    const movieId = req.params.movieId;
+
+    await movieService.attach(movieId, castId);
+
+    res.redirect(`/movies/${movieId}/attach`);
+});
+
+// router.post('/movies/:movieId/attach' , async (req,res) =>{
+//     const castId = req.body.cast;
+//     const movieId = req.params.movieId
+//     await movieService.attach(movieId,castId)
+
+//     res.redirect(`/movies/${movieId}/attach`)
+ 
+// });
+router.get('movies/:movieId/edit', async (req, res) => {
+    res.render('movie/edit')
+})
 module.exports = router

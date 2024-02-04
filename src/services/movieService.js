@@ -1,17 +1,10 @@
 const Movie = require('../models/movie')
 
 
-  exports.getAll =  () =>{
-   const movies = Movie.find()
-   return movies
-  }
+exports.getAll = () => Movie.find();
 
 
-exports.create = (movieData) =>{
-
-  const result =  Movie.create(movieData)
-    return result 
-}
+exports.create = (movieData) => Movie.create(movieData)
 
 exports.search =(title,genre,year) =>{
   let query = {}
@@ -30,13 +23,25 @@ exports.search =(title,genre,year) =>{
   return Movie.find(query)
 }
 }
-exports.getOne = (movieId) => Movie.findById(movieId).populate('casts')
+exports.getOne = (movieId) => Movie.findById(movieId).populate('casts');
 
-exports.attach = async(movieId,castId) =>{
+// exports.attach = async(movieId,castId) =>{
   
-const movie = await this.getOne(movieId) 
+// const movie = await this.getOne(movieId) 
 
-movie.casts.push(castId)
+// movie.casts.push(castId)
 
-return movie.save()
-}
+// return movie.save()
+// }
+exports.attach = async (movieId, castId) => {
+  // return Movie.findByIdAndUpdate(movieId, { $push: { casts: castId } });
+  const movie = await this.getOne(movieId);
+
+  // TODO: validate castId if exists
+  // TODO: validate if cast is already added
+  movie.casts.push(cast);
+
+  await movie.save();
+
+  return movie;
+};
